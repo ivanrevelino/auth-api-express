@@ -17,7 +17,7 @@ class AuthController {
             });
         }
 
-        const isPasswordValid = bcrypt.compare(password, user.getPassword());
+        const isPasswordValid = await bcrypt.compare(password, user.getPassword());
 
         if(!isPasswordValid) {
             return res.status(401).json({
@@ -28,8 +28,8 @@ class AuthController {
 
         const payload = {
             userId : user.getId(),
-            username : user.getUserName,
-            role : user.getRole
+            username : user.getUserName(),
+            role : user.getRole()
         };
 
         const secret = process.env.JWT_SECRET;
@@ -39,6 +39,22 @@ class AuthController {
             message : "Login realizado com sucesso",
             token : token
         });
+    }
+
+    register = async (req, res) => {
+        try {
+            const { name, username, password} = req.body;
+            const user = await userService.createUser(name, username, password)
+
+            return res.status(201).json({
+                message : "Usuario criado",
+                user : user
+            }) 
+        } catch (erro){
+            return res.status(400).json({
+                erro : erro.message
+            })
+        }
     }
 }
 

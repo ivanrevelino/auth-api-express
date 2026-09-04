@@ -4,23 +4,22 @@ import bcrypt from "bcrypt"
 
 class UserService {
 
-    async createUser(name, username, password, role) {
+    async createUser(name, username, password) {
         
-        if (!name || !password || !username || !role) {
+        if (!name || !password || !username) {
             throw new Error("Voce nao pode passar campos null")
         }
 
         const saltRounds = 10;
         const cryptedPassword = await bcrypt.hash(password, saltRounds);
 
-        const { savedName, savedUsername, savedRole} = await User.create({
+        const { savedName, savedUsername, role} = await User.create({
             name,
             username, 
-            password : cryptedPassword,
-            role,
+            password : cryptedPassword
         });
 
-        return new UserResponseDTO(savedName, savedUsername, savedRole);
+        return new UserResponseDTO(savedName, savedUsername, role);
 
     }
 
@@ -39,6 +38,14 @@ class UserService {
 
     async findByUsername(username) {
         return await User.findByUsername(username);
+    }
+
+    async delete(id) {
+        return await User.destroy(
+            {
+                where : {id}
+            }
+        )
     }
 }
 
