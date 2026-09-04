@@ -1,7 +1,7 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
 import { sequelize } from "../repository/repository.js";
 
-class User extends Model {
+export class User extends Model {
     
 
     getName () {
@@ -14,6 +14,13 @@ class User extends Model {
 }
 
 User.init({
+
+    id: {
+        type : DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement : true
+    },
+
     name : {
         type : DataTypes.STRING,
         allowNull : false,
