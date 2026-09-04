@@ -13,6 +13,14 @@ export class User extends Model {
     }
 }
 
+export class UserResponseDTO {
+    constructor(name, username, role) {
+        this.name = name;
+        this.username = username;
+        this.role = role;
+    }
+}
+
 User.init({
 
     id: {
@@ -39,7 +47,8 @@ User.init({
 
     role : {
         type: DataTypes.ENUM("ADMIN", "USER"),
-        allowNull : false
+        allowNull : false,
+        defaultValue : "USER"
     }
 }, {
     sequelize,
