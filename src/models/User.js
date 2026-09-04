@@ -11,6 +11,24 @@ export class User extends Model {
     getUserName() {
         return this.username;
     }
+
+    getPassword() {
+        return this.password;
+    }
+
+    getId() {
+        return this.id;
+    }
+    getRole() {
+        return this.role;
+    }
+
+    static async findByUsername(username) {
+        return await User.findOne({
+            where : {username}
+        })
+    }
+
 }
 
 export class UserResponseDTO {

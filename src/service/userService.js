@@ -36,6 +36,10 @@ class UserService {
         const { name, username, role } =  await User.findByPk(id);
         return new UserResponseDTO(name, username, role);
     }
+
+    async findByUsername(username) {
+        return await User.findByUsername(username);
+    }
 }
 
 export default new UserService();
